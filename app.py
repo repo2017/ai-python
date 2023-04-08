@@ -1,15 +1,13 @@
-from flask import Flask, render_template
-import requests
+from flask import Flask, request, jsonify
 
-app = Flask(__name__, template_folder='templates')
+app = Flask(__name__)
 
-@app.route('/')
-def index():
-    # Call mock API endpoint and get the response
-    response = requests.get('https://jsonplaceholder.typicode.com/posts/1')
+@app.route('/', methods=['POST'])
+def add_text():
+    data = request.get_json()
+    input_text = data['input_text']
+    data['output'] = f"The input text was: {input_text}"
+    return jsonify(data)
 
-    # Parse response JSON and get the 'title' field value
-    title = response.json()['title']
-
-    # Pass title value to the index.html template
-    return render_template('index.html', title=title)
+if __name__ == '__main__':
+    app.run(debug=True)
