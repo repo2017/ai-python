@@ -25,6 +25,9 @@ chain = load_qa_with_sources_chain(llm, chain_type="stuff")
 
 #     return {"Hello": "World"}
 
+@app.get("/welcome")
+async def read_welcome():
+    return responses.FileResponse("index.html")
 
 @app.get("/")
 async def read_root():
